@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import './App.css';
 import About from './Pages/About/About';
 import Appointment from './Pages/Appointment/Appointment';
+import AddDoctor from './Pages/DashBoard/AddDoctor';
 import DashBoard from './Pages/DashBoard/DashBoard';
 import MyAppointment from './Pages/DashBoard/MyAppointment';
 import MyHistory from './Pages/DashBoard/MyHistory';
@@ -34,6 +35,7 @@ function App() {
           <Route path="review" element={<MyReview></MyReview>}></Route>
           <Route path="history" element={<MyHistory></MyHistory>}></Route>
           <Route path="users" element={<RequireAdmin><Users></Users></RequireAdmin>}></Route>
+          <Route path="addDoctor" element={<RequireAdmin><AddDoctor></AddDoctor></RequireAdmin>}></Route>
         </Route>
         <Route path="login" element={<Login/>} />
         <Route path="signup" element={<SignUp />} />
