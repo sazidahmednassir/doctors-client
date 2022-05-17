@@ -1,13 +1,21 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useQuery } from 'react-query';
+import Loading from '../Shared/Loading';
 
 const AddDoctor = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
+
+    const {data : services, isLoading}=useQuery('services',  ()=> fetch('http://localhost:5000/service').then(res=>res.json()))
 
     const onSubmit = async data => {
       
         console.log('data', data);
        
+    }
+
+    if (isLoading) {
+        return <Loading></Loading>
     }
     return (
         <div>
@@ -60,28 +68,42 @@ const AddDoctor = () => {
 </div>
 <div className="form-control w-full max-w-xs">
     <label className="label">
-        <span className="label-text">Password</span>
+        <span className="label-text">Specialization </span>
+    </label>
+    <select  {...register('specialty')}  class="select w-full max-w-xs">
+        {
+            services.map(service =><option
+            key={service._id}
+            value={service.name}
+            >{service.name}</option>)
+        }
+  
+ 
+</select>
+    
+  
+</div>
+<div className="form-control w-full max-w-xs">
+    <label className="label">
+        <span className="label-text">File</span>
     </label>
     <input
-        type="password"
-        placeholder="Password"
+        type="file"
+       
         className="input input-bordered w-full max-w-xs"
-        {...register("password", {
+        {...register("image", {
             required: {
                 value: true,
-                message: 'Password is Required'
-            },
-            minLength: {
-                value: 6,
-                message: 'Must be 6 characters or longer'
+                message: 'Image is Required'
             }
         })}
     />
     <label className="label">
-        {errors.password?.type === 'required' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
-        {errors.password?.type === 'minLength' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
+        {errors.name?.type === 'required' && <span className="label-text-alt text-red-500">{errors.name.message}</span>}
     </label>
 </div>
+
+
 
 
 <input className='btn w-full max-w-xs text-white' type="submit" value="Add Doctor" />
